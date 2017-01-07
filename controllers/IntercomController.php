@@ -1,12 +1,14 @@
 <?php
 
-namespace backend\modules\intercom\controllers;
+namespace adzpire\intercom\controllers;
 
-use backend\modules\location\models\MainLocation;
-use backend\modules\mainjob\models\PersonJob;
+use adzpire\location\models\MainLocation;
+
+use adzpire\mainjob\models\PersonJob;
+
 use Yii;
-use backend\modules\intercom\models\MainIntercom;
-use backend\modules\intercom\models\MainIntercomSearch;
+use adzpire\intercom\models\MainIntercom;
+use adzpire\intercom\models\MainIntercomSearch;
 
 use backend\modules\person\models\Person;
 

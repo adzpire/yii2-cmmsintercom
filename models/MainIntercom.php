@@ -1,12 +1,12 @@
 <?php
 
-namespace backend\modules\intercom\models;
+namespace adzpire\intercom\models;
 
-use backend\modules\mainjob\models\PersonJob;
+use adzpire\mainjob\models\PersonJob;
 use Yii;
 
-use backend\modules\location\models\MainLocation;
-use backend\modules\mainjob\models\Person;
+use adzpire\location\models\MainLocation;
+use adzpire\mainjob\models\Person;
 /**
  * This is the model class for table "main_intercom".
  *

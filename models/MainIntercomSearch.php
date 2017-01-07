@@ -1,14 +1,14 @@
 <?php
 
-namespace backend\modules\intercom\models;
+namespace adzpire\intercom\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\modules\intercom\models\MainIntercom;
+use adzpire\intercom\models\MainIntercom;
 
 /**
- * MainIntercomSearch represents the model behind the search form about `backend\modules\intercom\models\MainIntercom`.
+ * MainIntercomSearch represents the model behind the search form about `adzpire\intercom\models\MainIntercom`.
  */
 class MainIntercomSearch extends MainIntercom
 {

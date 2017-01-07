@@ -10,7 +10,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 */
 /* @var $this yii\web\View */
-/* @var $model backend\modules\intercom\models\MainIntercom */
+/* @var $model adzpire\intercom\models\MainIntercom */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

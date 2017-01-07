@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\intercom\models\MainIntercom */
+/* @var $model adzpire\intercom\models\MainIntercom */
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Main Intercoms'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

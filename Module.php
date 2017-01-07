@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\intercom;
+namespace adzpire\intercom;
 
 /**
  * intercom module definition class
@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'backend\modules\intercom\controllers';
+    public $controllerNamespace = 'adzpire\intercom\controllers';
 
     /**
      * @inheritdoc
@@ -25,7 +25,7 @@ class Module extends \yii\base\Module
             Yii::$app->i18n->translations['repair'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath' => 'backend\modules\intercom/intercom/messages'
+                'basePath' => 'adzpire\intercom/intercom/messages'
             ];
         }
 		*/

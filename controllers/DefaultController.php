@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\intercom\controllers;
+namespace adzpire\intercom\controllers;
 
 use Yii;
-use backend\modules\intercom\models\MainIntercom;
-use backend\modules\intercom\models\MainIntercomSearch;
+use adzpire\intercom\models\MainIntercom;
+use adzpire\intercom\models\MainIntercomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
