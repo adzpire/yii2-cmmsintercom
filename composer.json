@@ -1,13 +1,13 @@
 {
-    "name": "adzpire/yii2-cmmslocation",
-    "description": "pn psu comm-sci location database",
+    "name": "adzpire/yii2-cmmsintercom",
+    "description": "pn psu comm-sci intercom database",
     "type": "yii2-extension",
     "keywords": ["yii2","extension"],
     "license": "GPL-3.0",
     "minimum-stability": "stable",
     "support": {
-        "source": "https://github.com/adzpire/yii2-cmmslocation.git",
-        "issues": "https://github.com/adzpire/yii2-cmmslocation/issues"
+        "source": "https://github.com/adzpire/yii2-cmmsintercom.git",
+        "issues": "https://github.com/adzpire/yii2-cmmsintercom/issues"
     },
     "authors": [
         {
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "adzpire\\location\\": ""
+            "adzpire\\intercom\\": ""
         }
     },
     "extra": {
