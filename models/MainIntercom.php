@@ -1,12 +1,15 @@
 <?php
 
-namespace adzpire\intercom\models;
+namespace backend\modules\intercom\models;
 
-use adzpire\mainjob\models\PersonJob;
+use backend\modules\mainjob\models\PersonJob;
 use Yii;
 
-use adzpire\location\models\MainLocation;
-use adzpire\mainjob\models\Person;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+
+use backend\modules\location\models\MainLocation;
+use backend\modules\mainjob\models\PersonExt;
 /**
  * This is the model class for table "main_intercom".
  *
@@ -15,6 +18,7 @@ use adzpire\mainjob\models\Person;
  * @property integer $location_id
  * @property integer $staff_id
  * @property string $number
+ * @property string $note
  * @property integer $created_at
  * @property integer $created_by
  * @property integer $updated_at
@@ -34,6 +38,14 @@ class MainIntercom extends \yii\db\ActiveRecord
         return 'main_intercom';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className(),
+        ];
+    }
+
 public $locationName; 
 public $locationFloor;
 public $createdByName;
@@ -50,14 +62,15 @@ $query->joinWith(['location', 'createdBy', 'updatedBy', ]);*/
     public function rules()
     {
         return [
-            [['location_id', 'number', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
-            [['location_id', 'staff_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'isDeleted'], 'integer'],
+            [['location_id', 'number',], 'required'],
+            [['location_id', 'staff_id', 'isDeleted'], 'integer'],
             [['number'], 'string', 'max' => 15],
-            [['staff_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['staff_id' => 'user_id']],
+            [['note'], 'string', 'max' => 255],
+            [['staff_id'], 'exist', 'skipOnError' => true, 'targetClass' => PersonExt::className(), 'targetAttribute' => ['staff_id' => 'user_id']],
             [['personjob'], 'exist', 'skipOnError' => true, 'targetClass' => PersonJob::className(), 'targetAttribute' => ['staff_id' => 'person_id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => MainLocation::className(), 'targetAttribute' => ['location_id' => 'id']],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['created_by' => 'user_id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['updated_by' => 'user_id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => PersonExt::className(), 'targetAttribute' => ['created_by' => 'user_id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => PersonExt::className(), 'targetAttribute' => ['updated_by' => 'user_id']],
         ];
     }
 
@@ -73,6 +86,7 @@ $query->joinWith(['location', 'createdBy', 'updatedBy', ]);*/
             'locationFloor' => 'ชั้นที่',
             'staff_id' => 'เจ้าหน้าที่',
             'number' => 'โทรศัพท์',
+            'note' => 'อื่นๆ',
             'jobName' => 'งาน',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
@@ -119,7 +133,7 @@ $query->joinWith(['location', 'createdBy', 'updatedBy', ]);*/
      */
     public function getCreatedBy()
     {
-        return $this->hasOne(Person::className(), ['user_id' => 'created_by']);
+        return $this->hasOne(PersonExt::className(), ['user_id' => 'created_by']);
 		
 			/*
 			$dataProvider->sort->attributes['createdByName'] = [
@@ -151,7 +165,7 @@ $query->joinWith(['location', 'createdBy', 'updatedBy', ]);*/
      */
     public function getUpdatedBy()
     {
-        return $this->hasOne(Person::className(), ['user_id' => 'updated_by']);
+        return $this->hasOne(PersonExt::className(), ['user_id' => 'updated_by']);
 		
 			/*
 			$dataProvider->sort->attributes['updatedByName'] = [
@@ -183,7 +197,7 @@ $query->joinWith(['location', 'createdBy', 'updatedBy', ]);*/
     }
     public function getPerson()
     {
-        return $this->hasOne(Person::className(), ['user_id' => 'staff_id']);
+        return $this->hasOne(PersonExt::className(), ['user_id' => 'staff_id']);
     }
     public function getMainIntercomList(){
 		return ArrayHelper::map(self::find()->all(), 'id', 'title');

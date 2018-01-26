@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model adzpire\intercom\models\MainIntercomSearch */
+/* @var $model backend\modules\intercom\models\MainIntercomSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

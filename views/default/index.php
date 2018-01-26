@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel adzpire\intercom\models\MainIntercomSearch */
+/* @var $searchModel backend\modules\intercom\models\MainIntercomSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,15 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'attribute' => 'id',
-                'headerOptions' => [
-                    'width' => '50px',
-                ],
-            ],
+            'number',
             [
                 'attribute' => 'locationName',
                 'value' => 'location.loc_name',
+                'filter' => $loclist,
             ],
             [
                 'attribute' => 'locationFloor',
@@ -49,8 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'value' => 'person.fullname'
                  'value' => 'person.job.jobInfoList',
                 'format'=>'html',
+                'filter' => $joblist,
             ],
-            'number',
+
+            'note',
             //'created_at',
             // 'created_by',
             // 'updated_at',
@@ -74,6 +72,37 @@ $this->params['breadcrumbs'][] = $this->title;
         'panel'=>[
             'type'=>GridView::TYPE_INFO,
             'heading'=> Html::icon('phone-alt').' '.Html::encode($this->title),
+            'before' => '
+
+<div class="row">
+  <div class="col-md-12 text-center">การใช้โทรศัพท์ภายใน-ภายนอก</div>
+</div>
+<div class="row">
+  <div class="col-md-3 text-center">การรับสายแทน (วิธีใช้ชั่วคราว)</div>
+  <div class="col-md-3 text-center">การโอนสาย</div>
+  <div class="col-md-3 text-center">การจองสาย</div>
+  <div class="col-md-3 text-center">การโทรต่างวิทยาเขต</div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <p>1.ยกหูโทรศัพท์</p>
+        <p>2.กดเลขหมายภายในของเครื่องที่เสียงเรียกกำลังดังขึ้น</p>
+        <p>3. กด 8</p>
+    </div>
+    <div class="col-md-3">
+      การจองสายภายในให้เรียกกลับอัตโนมัติ (กรณีที่โทรไปแล้วสายปลายทางไม่ว่าง) ให้กด 6 และวางหูฟังลง เมื่อเครื่องที่ถูกจองสายได้ใช้งานและวางหูฟังแล้ว เครื่องของท่านก็จะมีเสียงเรียกดังขึ้นเอง ซึ่งลักษณะของเสียงเรียกจะดังถี่กว่าปกติ และเมื่อท่านยกหูฟังขึ้น เครื่องที่ถูกจองสายจะมีเสียงเรียกดังตามขึ้นมา
+    </div>
+  <div class="col-md-3">การจองสายภายในให้เรียกกลับอัตโนมัติ (กรณีที่โทรไปแล้วสายปลายทางไม่ว่าง) ให้กด 6 และวางหูฟังลง เมื่อเครื่องที่ถูกจองสายได้ใช้งานและวางหูฟังแล้ว เครื่องของท่านก็จะมีเสียงเรียกดังขึ้นเอง ซึ่งลักษณะของเสียงเรียกจะดังถี่กว่าปกติ และเมื่อท่านยกหูฟังขึ้น เครื่องที่ถูกจองสายจะมีเสียงเรียกดังตามขึ้นมา
+  </div>
+    <div class="col-md-3">
+        <p>กดสองหมายเลขแล้วตามด้วยหมายเลขปลายทาง</p>
+        <p>1.วิทยาเขตปัตตานี กด 04</p>
+        <p>2.วิทยาเขตหาดใหญ่ กด 03</p>
+        <p>3.วิทยาเขตตรัง กด 05</p>
+        <p>4.วิทยาเขตสุราษฏร์ธานี กด 06</p>
+        <p>5.วิทยาเขตภูเก็ต กด07</p>
+    </div>
+</div>',
         ],
     ]); ?>
     <?php 	 /* adzpire grid tips

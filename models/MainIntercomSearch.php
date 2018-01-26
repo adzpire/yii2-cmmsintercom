@@ -1,14 +1,14 @@
 <?php
 
-namespace adzpire\intercom\models;
+namespace backend\modules\intercom\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use adzpire\intercom\models\MainIntercom;
+use backend\modules\intercom\models\MainIntercom;
 
 /**
- * MainIntercomSearch represents the model behind the search form about `adzpire\intercom\models\MainIntercom`.
+ * MainIntercomSearch represents the model behind the search form about `backend\modules\intercom\models\MainIntercom`.
  */
 class MainIntercomSearch extends MainIntercom
 {
@@ -44,7 +44,7 @@ class MainIntercomSearch extends MainIntercom
     {
         return [
             [['id','locationFloor'], 'integer'],
-            [['number', 'locationName', 'personName'], 'safe'],
+            [['number', 'locationName', 'personName', 'jobName'], 'safe'],
         ];
     }
 
@@ -67,11 +67,18 @@ class MainIntercomSearch extends MainIntercom
     public function search($params)
     {
         $query = MainIntercom::find();
-        $query->joinWith(['location', 'person']);
+        $query->joinWith(['location', 'person', 'personjob']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => false,
+            'sort' => [
+                'defaultOrder' => [
+                    'location_id' => SORT_DESC,
+//                    'title' => SORT_ASC,
+                ]
+            ],
         ]);
 
         $dataProvider->sort->attributes['locationName'] = [
@@ -97,7 +104,7 @@ class MainIntercomSearch extends MainIntercom
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'location_id' => $this->location_id,
+            'location_id' => $this->locationName,
             'main_location.loc_floor' => $this->locationFloor,
             'staff_id' => $this->staff_id,
             'created_at' => $this->created_at,
@@ -106,11 +113,17 @@ class MainIntercomSearch extends MainIntercom
             'updated_by' => $this->updated_by,
             'isDeleted' => $this->isDeleted,
         ]);
+//        $this->jobName = '"'.$this->jobName.'"';
+        $query->orFilterWhere(['like', 'number', $this->number])
+            //->orFilterWhere(['like', 'main_location.id', $this->locationName])
+            ->orFilterWhere(['like', 'person.firstname_th', $this->personName])
+            ->orFilterWhere(['like', 'person.lastname_th', $this->personName]);
+//            ->orFilterWhere(['REGEXP', 'person_job.job', $this->jobName]);
+            if(!empty($this->jobName)){
+                $query->orWhere(' job REGEXP \'"'.$this->jobName.'"\'');
+            }
 
-        $query->andFilterWhere(['like', 'number', $this->number])
-            ->andFilterWhere(['like', 'main_location.loc_name', $this->locationName])
-            ->andFilterWhere(['like', 'person.firstname_th', $this->personName])
-            ->orFilterWhere(['like', 'person.lastname_th', $this->locationName]);
+//            ->orFilterWhere(['FIND_IN_SET('.$this->jobName.', person_job.job)']);
 
         return $dataProvider;
     }

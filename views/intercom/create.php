@@ -4,9 +4,9 @@ use yii\bootstrap\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model adzpire\intercom\models\MainIntercom */
+/* @var $model backend\modules\intercom\models\MainIntercom */
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Main Intercoms'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'รายการข้อมูล'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="main-intercom-create">
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel panel-primary">
         <div class="panel-heading">
             <span class="panel-title"><?= Html::icon('edit') . ' ' . Html::encode($this->title) ?></span>
-            <?= Html::a(Html::icon('list-alt') . ' ' . Yii::t('app', 'entry'), ['index'], ['class' => 'btn btn-success panbtn']) ?>
+            <?= Html::a(Html::icon('list-alt') . ' ' . Yii::t('app', 'รายการข้อมูล'), ['index'], ['class' => 'btn btn-success panbtn']) ?>
         </div>
         <div class="panel-body">
             <?= $this->render('_form', [

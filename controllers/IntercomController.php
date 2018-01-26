@@ -1,22 +1,22 @@
 <?php
 
-namespace adzpire\intercom\controllers;
+namespace backend\modules\intercom\controllers;
 
-use adzpire\location\models\MainLocation;
-
-use adzpire\mainjob\models\PersonJob;
-
+use backend\modules\location\models\MainLocation;
+use backend\modules\mainjob\models\PersonJob;
 use Yii;
-use adzpire\intercom\models\MainIntercom;
-use adzpire\intercom\models\MainIntercomSearch;
+use backend\modules\intercom\models\MainIntercom;
+use backend\modules\intercom\models\MainIntercomSearch;
 
 use backend\modules\person\models\Person;
+use backend\components\AdzpireComponent;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
@@ -39,15 +39,27 @@ class IntercomController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['IntStaff', 'root'],
+                    ],
+                    // everything else is denied by default
+                ],
+            ],
         ];
     }
 
     public $checkperson;
     public $moduletitle;
-    public function beforeAction(){
+    public function beforeAction($action){
         $this->checkperson = Person::findOne([Yii::$app->user->id]);
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        return true;
+        return parent::beforeAction($action);
     }
 	 
     /**
@@ -57,7 +69,7 @@ class IntercomController extends Controller
     public function actionIndex()
     {
 		 
-		 Yii::$app->view->title = Yii::t('app', 'Main Intercoms').' - '.Yii::t('app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = Yii::t('app', 'รายการข้อมูล').' - '.$this->moduletitle;
 		 
         $searchModel = new MainIntercomSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -77,7 +89,7 @@ class IntercomController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด').' : '.$model->id.' - '.Yii::t('app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด').' : '.$model->id.' - '.$this->moduletitle;
 		 
         return $this->render('view', [
             'model' => $model,
@@ -91,7 +103,7 @@ class IntercomController extends Controller
      */
     public function actionCreate()
     {
-		 Yii::$app->view->title = Yii::t('app', 'สร้างใหม่').' - '.Yii::t('app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = Yii::t('app', 'สร้างใหม่').' - '.$this->moduletitle;
 		 
         $model = new MainIntercom();
 
@@ -103,20 +115,10 @@ class IntercomController extends Controller
 		
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-				]);
-			return $this->redirect(['view', 'id' => $model->id]);	
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
+			    return $this->redirect('index');
 			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-				]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
 			}
             print_r($model->getErrors());exit;
         }
@@ -143,26 +145,16 @@ class IntercomController extends Controller
 		 
 		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ {modelClass}: ', [
     'modelClass' => 'Main Intercom',
-]) . $model->id.' - '.Yii::t('app', Yii::$app->controller->module->params['title']);
+]) . $model->id.' - '.$this->moduletitle;
 		 
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
-				]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
 			return $this->redirect(['view', 'id' => $model->id]);	
 			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
-				]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
 			}
-            return $this->redirect(['view', 'id' => $model->id]);
+            print_r($model->getErrors());exit;
         }
 
         $loclist = MainLocation::getLocationList();
@@ -187,13 +179,7 @@ class IntercomController extends Controller
     {
         $this->findModel($id)->delete();
 		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => Yii::t('app', 'ลบรายการเรียบร้อย'),
-		]);
-		
+        AdzpireComponent::succalert('edtflsh', 'ลบรายการเรียบร้อย');
 
         return $this->redirect(['index']);
     }

@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel adzpire\intercom\models\MainIntercomSearch */
+/* @var $searchModel backend\modules\intercom\models\MainIntercomSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,15 +22,40 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'location_id',
-            'staff_id',
+            [
+                'attribute' => 'id',
+                'headerOptions' => [
+                    'width' => '50px',
+                ],
+            ],
             'number',
-            'created_at',
-            // 'created_by',
-            // 'updated_at',
-            // 'updated_by',
-            // 'isDeleted',
+            [
+                'attribute' => 'locationName',
+                'value' => 'location.loc_name',
+            ],
+            [
+                'attribute' => 'locationFloor',
+                'value' => 'location.loc_floor',
+                'headerOptions' => [
+                    'width' => '50px',
+                ],
+            ],
+            [
+                'attribute' => 'personName',
+                'value' => 'person.fullname'
+                // 'value' => 'personjob.person.fullname'
+            ],
+            [
+                'attribute' => 'jobName',
+                //'value' => 'person.fullname'
+                'value' => 'person.job.jobInfoList',
+                'format'=>'html',
+            ],
+            'note',
+//             'created_by',
+//             'updated_at',
+//             'updated_by',
+//             'isDeleted',
 				[
 					'class' => 'yii\grid\ActionColumn',
 					/*'visibleButtons' => [
@@ -51,10 +76,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover'=>true,
 		'toolbar'=> [
 			['content'=>
-				Html::a(Html::icon('plus'), ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
+				Html::a(Html::icon('plus').' เพิ่มรายการ', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
 				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
 			],
-			//'{export}',
+			'{export}',
 			'{toggleData}',
 		],
 		'panel'=>[

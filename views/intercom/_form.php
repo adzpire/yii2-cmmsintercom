@@ -10,7 +10,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 */
 /* @var $this yii\web\View */
-/* @var $model adzpire\intercom\models\MainIntercom */
+/* @var $model backend\modules\intercom\models\MainIntercom */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -30,6 +30,7 @@ use kartik\widgets\DatePicker;
 			//	'enctype' => 'multipart/form-data'
 			]); ?>
     <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
+
 	<?php
 	echo $form->field($model, 'location_id')->widget(Select2::classname(), [
 		'data' => $loclist,
@@ -79,6 +80,7 @@ use kartik\widgets\DatePicker;
 			?>
 		</div>
 	</div>
+    <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
 <?php 		/* adzpire form tips
 		$form->field($model, 'wu_tel', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]);

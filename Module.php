@@ -1,6 +1,6 @@
 <?php
 
-namespace adzpire\intercom;
+namespace backend\modules\intercom;
 
 /**
  * intercom module definition class
@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'adzpire\intercom\controllers';
+    public $controllerNamespace = 'backend\modules\intercom\controllers';
 
     /**
      * @inheritdoc
@@ -25,15 +25,16 @@ class Module extends \yii\base\Module
             Yii::$app->i18n->translations['repair'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath' => 'adzpire\intercom/intercom/messages'
+                'basePath' => 'backend\modules\intercom/intercom/messages'
             ];
         }
 		*/
 		parent::init();
 
 		$this->layout = 'intercom';
-		$this->params['ModuleVers'] = '1.0.0';
-		$this->params['title'] = 'intercom';
+		$this->params['ModuleVers'] = '1.1';
+		$this->params['title'] = 'ระบบเบอร์โทรศัพท์ภายในคณะฯ';
+		$this->params['modulecookies'] = 'intercomck';
         // custom initialization code goes here
     }
 }
